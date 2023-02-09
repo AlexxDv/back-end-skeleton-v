@@ -8,9 +8,11 @@ module.exports = () => (req, res, next) => {
       const userData = verifyToken(token);
        console.log("Read seccessful, user", userData.username);
        req.user = userData
-    } catch (error) {
+    } catch (err) {
+      console.log("Invalid token");
       res.clearCookie("token");
       res.redirect("/auth/login");
+      return
     }
   }
   next();

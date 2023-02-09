@@ -60,4 +60,9 @@ authController.post("/login", async (req, res) => {
     });
   }
 });
+
+authController.get("/logout", async (req, res) => {
+  res.clearCookie('token');
+  res.redirect("/"); 
+})
 module.exports = authController;
