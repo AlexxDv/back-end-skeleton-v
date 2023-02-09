@@ -1,7 +1,9 @@
 const publicFiles = require("express");
 const handlebars = require("express-handlebars");
-const express = require("express");
-const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+
+// const express = require("express");
+// const mongoose = require("mongoose");
 
 module.exports = (app) => {
   const hbs = handlebars.create({
@@ -12,4 +14,5 @@ module.exports = (app) => {
 
   app.use("/static", publicFiles.static("static"));
   app.use(express.urlencoded({ extended: true }));
+  app.use(cookieParser());
 };
