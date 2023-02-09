@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-const JST_SECRET = "9dasd23e7dbw72";
+const JWT_SECRET = "9dasd23e7dbw72";
 
 async function register(username, password) {
   const existing = await User.findOne({ username }).collation({
@@ -42,20 +42,22 @@ async function login(username, password) {
   return token;
 }
 
-function createSession(_id, user) {
+function createSession(_id, username) {
   const payload = {
     _id,
     username,
   };
 
-  const token = jwt.sign(payload, JST_SECRET);
+  const token = jwt.sign(payload, JWT_SECRET);
   return token;
 }
 
-function verifyToken() {}
+function verifyToken(token) {
+  return jwt.verify(token, JWT_SECRET);
+}
 
 module.exports = {
   register,
   login,
-  verifyToken
+  verifyToken,
 };
