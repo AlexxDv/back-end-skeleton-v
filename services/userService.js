@@ -21,8 +21,8 @@ async function register(username, password) {
   const token = createSession(user);
   return token;
 }
-
 async function login(username, password) {
+  //Ако трябва да проверяваме и за имейл-трябва да направим търсенето още веднъж
   const user = await User.findOne({ username }).collation({
     locale: "en",
     strength: 2,
@@ -57,4 +57,5 @@ function verifyToken() {}
 module.exports = {
   register,
   login,
+  verifyToken
 };
