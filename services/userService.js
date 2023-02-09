@@ -15,16 +15,32 @@ async function register(username, password) {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-
   const user = await User.create({ username, hashedPassword });
 
   //TODO see assignment if registration creates user session
   const token = createSession(user);
-
   return token;
 }
 
-async function login() {}
+async function login(username, password) {
+  const user = await User.findOne({ username }).collation({
+    locale: "en",
+    strength: 2,
+  });
+
+  if (!user) {
+    throw new Error("Incorrect username or password");
+  }
+
+  const hasMatch = await bcrypt.compare(password, user.hashedPassword);
+
+  if (hasMatch == false) {
+    throw new Error("Incorrect username or password");
+  }
+
+  const token = createSession(user);
+  return token;
+}
 
 function createSession(_id, user) {
   const payload = {

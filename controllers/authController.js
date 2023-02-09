@@ -20,8 +20,9 @@ authController.post("/register", async (req, res) => {
 
     const token = await register(req.body.username, req.body.password);
 
+    //TODO check assignment to see if register creates session
     res.cookie("token", token);
-    res.redirect("/auth/register");
+    res.redirect("/"); //TODO replace with redirect view by assignment
   } catch (error) {
     console.log(error);
     const errors = parseError(error);
@@ -37,4 +38,25 @@ authController.post("/register", async (req, res) => {
   }
 });
 
+authController.get("/login", (req, res) => {
+  res.render("login", { title: "Login Page" });
+});
+
+authController.post("/login", async (req, res) => {
+  try {
+    const token = await login(req.body.username, req.body.password);
+
+    res.cookie("token", token);
+    res.redirect("/"); //TODO replace with redirect view by assignment
+  } catch (error) {
+    const errors = parseError(error);
+    res.render("login", {
+      title: "Login Page",
+      errors,
+      body: {
+        username: req.body.username,
+      },
+    });
+  }
+});
 module.exports = authController;
