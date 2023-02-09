@@ -42,7 +42,7 @@ async function login(username, password) {
   return token;
 }
 
-function createSession(_id, username) {
+function createSession({_id, username}) {
   const payload = {
     _id,
     username,
